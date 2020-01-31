@@ -5,34 +5,41 @@ import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.renderscript.Allocation;
+import androidx.renderscript.RenderScript;
+
+import static l3.techno.imageeditorl3.MainActivity.imv;
 
 public class ImageEditor extends AppCompatActivity {
 
     //Attributs
-    private Bitmap img;
-    BitmapFactory.Options opts = new BitmapFactory.Options();
-    private ImageView imv;
+    public Bitmap img_backup;
+    public Bitmap img_actual;
     int w;
     int h;
     int[] pixels;
     //Dimensions ??
 
     //Constructeur
-    public ImageEditor(ImageView imv){
+    public ImageEditor(Bitmap img){
+        this.img_backup = img;
+        this.img_actual = img;
         w = img.getWidth();
         h = img.getHeight();
         pixels = new int[w * h];
-        opts.inMutable = true;
-        opts.inScaled = false;
-        this.img = BitmapFactory.decodeResource(getResources(), R.drawable.lena,opts);
-        this.imv.setImageBitmap(img);
-        this.imv = imv;
+
+
+        //imv.setImageBitmap(img);
+    }
+
+    public void defaultimg(){
+        //TODO
     }
 
     //RESET IMAGE PAR DEFAUT
     public void defaultImg(){
-        img = BitmapFactory.decodeResource(getResources(), R.drawable.lena, opts);
-        this.imv.setImageBitmap(img);
+        img_backup.getPixels(pixels, 0, w, 0, 0, w, h);
+        img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
     }
 
     //CONVERTIE L'IMAGE EN NIVEAU DE GRIS AVEC GETPIXELS (OPTIMAL)
@@ -42,7 +49,7 @@ public class ImageEditor extends AppCompatActivity {
         int blue;
         int grey;
         int alpha = 0xFF << 24;
-        img.getPixels(pixels, 0, w, 0, 0, w, h);
+        img_actual.getPixels(pixels, 0, w, 0, 0, w, h);
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 grey = pixels[w * x + y];
@@ -54,7 +61,22 @@ public class ImageEditor extends AppCompatActivity {
                 pixels[w * x + y] = grey;
             }
         }
-        img.setPixels(pixels, 0, w, 0, 0, w, h);
+        img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
     }
 
+/*
+    //CONVERTIE L'IMAGE EN NIVEAU DE GRIS RENDERSCRIPT
+    public void toGrayRS(){
+        RenderScript rs = RenderScript.create(this);
+        Allocation input = Allocation.createFromBitmap(rs , this.img_actual);
+        Allocation  output= Allocation.createTyped(rs , input. getType ());
+
+        ScriptC_gray  grayScript = new  ScriptC_gray(rs);
+        grayScript.forEach_toGray(input , output);
+
+        output.copyTo(this.img_actual);
+        input.destroy (); output.destroy ();
+        grayScript.destroy (); rs.destroy ();
+    }
+*/
 }

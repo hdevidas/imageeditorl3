@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     static Bitmap img;
 
-    ImageView imv;
+    static ImageView imv;
 
 
 
@@ -92,9 +92,14 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.textview);
 
         imv = (ImageView) findViewById(R.id.lena);
-        final ImageEditor img1 = new ImageEditor(imv);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inMutable = true;
+        opts.inScaled = false;
+        final Bitmap img = BitmapFactory.decodeResource(getResources(), R.drawable.lena,opts);
+        final ImageEditor img1 = new ImageEditor(img);
 
-
+        //img1.defaultImg();
+        imv.setImageBitmap(img1.img_actual);
 
 
         // ----------------------BOUTONS---------------------
@@ -103,8 +108,12 @@ public class MainActivity extends AppCompatActivity {
         Button bt_default = findViewById(R.id.bt_default);
         bt_default.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                defaultImg();
+            public void onClick(View v) { //TROUVER UNE SOLUTION POUR LE PLACER DANS LE IMAGEEDITOR.JAVA
+                    BitmapFactory.Options opts = new BitmapFactory.Options();
+                    opts.inMutable = true;
+                    opts.inScaled = false;
+                    img1.img_actual = BitmapFactory.decodeResource(getResources(), R.drawable.lena, opts);
+                    imv.setImageBitmap(img1.img_actual);
             }
         });
 
@@ -122,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         bt_grayRS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrayRS(img);
+                toGrayRS(img1.img_actual);
             }
         });
 
