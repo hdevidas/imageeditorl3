@@ -26,9 +26,11 @@ import static android.graphics.Color.valueOf;
 
 public class MainActivity extends AppCompatActivity {
 
-
     static Bitmap img;
+
     ImageView imv;
+
+
 
     //------- Fonctions --------
 
@@ -88,7 +90,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView tv = (TextView) findViewById(R.id.textview);
+
         imv = (ImageView) findViewById(R.id.lena);
+        final ImageEditor img1 = new ImageEditor(imv);
+
+
+
 
         // ----------------------BOUTONS---------------------
 
@@ -106,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         bt_gray_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrayV2(img);
+                img1.toGray();
             }
         });
 
