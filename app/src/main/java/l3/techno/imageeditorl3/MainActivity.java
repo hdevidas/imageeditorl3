@@ -43,31 +43,6 @@ public class MainActivity extends AppCompatActivity {
         imv.setImageBitmap(img);
     }
 
-    //CONVERTIE L'IMAGE EN NIVEAU DE GRIS AVEC GETPIXELS (OPTIMAL)
-    void toGrayV2(Bitmap img){
-        int w = img.getWidth();
-        int h = img.getHeight();
-        int[] pixels = new int[w * h];
-        int red;
-        int green;
-        int blue;
-        int grey;
-        int alpha = 0xFF << 24;
-        img.getPixels(pixels, 0, w, 0, 0, w, h);
-        for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-                grey = pixels[w * x + y];
-                red = ((grey & 0x00FF0000) >> 16);
-                green = ((grey & 0x0000FF00) >> 8);
-                blue = (grey & 0x000000FF);
-                grey = (int) ((float) red * 0.3 + (float) green * 0.59 + (float) blue * 0.11);
-                grey = alpha | (grey << 16) | (grey << 8) | grey;
-                pixels[w * x + y] = grey;
-            }
-        }
-        img.setPixels(pixels, 0, w, 0, 0, w, h);
-    }
-
 
     //TO GRAY AVEC RENDERSCRIPT
     private  void  toGrayRS(Bitmap  bmp) {
@@ -108,12 +83,8 @@ public class MainActivity extends AppCompatActivity {
         Button bt_default = findViewById(R.id.bt_default);
         bt_default.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { //TROUVER UNE SOLUTION POUR LE PLACER DANS LE IMAGEEDITOR.JAVA
-                    BitmapFactory.Options opts = new BitmapFactory.Options();
-                    opts.inMutable = true;
-                    opts.inScaled = false;
-                    img1.img_actual = BitmapFactory.decodeResource(getResources(), R.drawable.lena, opts);
-                    imv.setImageBitmap(img1.img_actual);
+            public void onClick(View v) {
+                    img1.defaultImg();
             }
         });
 
