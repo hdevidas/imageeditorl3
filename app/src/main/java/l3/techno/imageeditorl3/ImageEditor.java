@@ -20,7 +20,7 @@ public class ImageEditor extends AppCompatActivity {
     public Bitmap img_actual;
     int w;
     int h;
-    int[] pixels;
+    private int[] pixels;
     //Dimensions ??
 
     //Constructeur
@@ -30,13 +30,6 @@ public class ImageEditor extends AppCompatActivity {
         w = img.getWidth();
         h = img.getHeight();
         pixels = new int[w * h];
-
-
-        //imv.setImageBitmap(img);
-    }
-
-    public void defaultimg(){
-        //TODO
     }
 
     /**
@@ -210,6 +203,213 @@ public class ImageEditor extends AppCompatActivity {
             pixels[i]=hsvToRgb(hsv);
         }
         img_actual.setPixels(pixels,0,w,0,0,w,h);
+    }
+
+    public int max_r(int[] colors){
+        int m=Color.red(colors[0]);
+        int c_r;
+        for(int c:colors){
+            c_r=Color.red(c);
+            if(m<c_r){
+                m=c_r;
+            }
+        }
+        return m;
+    }
+
+    public int max_g(int[] colors){
+        int m=Color.green(colors[0]);
+        int c_g;
+        for(int c:colors){
+            c_g=Color.green(c);
+            if(m<c_g){
+                m=c_g;
+            }
+        }
+        return m;
+    }
+
+    public int max_b(int[] colors){
+        int m=Color.blue(colors[0]);
+        int c_b;
+        for(int c:colors){
+            c_b=Color.blue(c);
+            if(m<c_b){
+                m=c_b;
+            }
+        }
+        return m;
+    }
+
+    public int min_r(int[] colors){
+        int m=Color.red(colors[0]);
+        int c_r;
+        for(int c:colors){
+            c_r=Color.red(c);
+            if(m>c_r){
+                m=c_r;
+            }
+        }
+        return m;
+    }
+
+    public int min_g(int[] colors){
+        int m=Color.green(colors[0]);
+        int c_g;
+        for(int c:colors){
+            c_g=Color.green(c);
+            if(m>c_g){
+                m=c_g;
+            }
+        }
+        return m;
+    }
+
+    public int min_b(int[] colors){
+        int m=Color.blue(colors[0]);
+        int c_b;
+        for(int c:colors){
+            c_b=Color.blue(c);
+            if(m>c_b){
+                m=c_b;
+            }
+        }
+        return m;
+    }
+
+    /**
+     *
+     * Increase the contrast of the bitmap (with the dynamic extension method).
+     *
+     */
+    public void contrastDE(){ //redondance de code pour la LUT
+        int[] LUTr=new int[256];
+        int[] LUTg=new int[256];
+        int[] LUTb=new int[256];
+
+        int min_r=min_r(pixels);
+        int max_r=max_r(pixels);
+
+        int min_g=min_g(pixels);
+        int max_g=max_g(pixels);
+
+        int min_b=min_b(pixels);
+        int max_b=max_b(pixels);
+
+        for(int i=0;i<256;i++){
+            LUTr[i]= (int)(255.f*(i-min_r))/(max_r-min_r); //traiter le cas où l'image est uniforme (max=min)
+            LUTg[i]= (int)(255.f*(i-min_g))/(max_g-min_g);
+            LUTb[i]= (int)(255.f*(i-min_b))/(max_b-min_b);
+        }
+
+        int r,g,b;
+        for(int i=0;i<pixels.length;i++){
+            r=Color.red(pixels[i]);
+            g=Color.green(pixels[i]);
+            b=Color.blue(pixels[i]);
+            pixels[i]=Color.rgb(LUTr[r],LUTg[g],LUTb[b]);
+        }
+
+        img_actual.setPixels(pixels,0,w,0,0,w,h);
+    }
+
+    /**
+     *
+     * Increase the contrast of the bitmap (with the histogram equalization method).
+     *
+     */
+    public void contrastHE() {
+        int r, g, b;
+
+        //indication : faire avec hsv et pas rgb
+        int[] hist_r = new int[256]; //à corriger : faire attention au "int" pour les grosses valeurs
+        int[] hist_g = new int[256];
+        int[] hist_b = new int[256];
+
+        for (int i = 0; i < 255; i++) {
+            hist_r[i] = 0;
+            hist_g[i] = 0;
+            hist_b[i] = 0;
+
+        }
+
+        for (int i = 0; i < pixels.length; i++) {
+            hist_r[Color.red(pixels[i])]++;
+            hist_g[Color.green(pixels[i])]++;
+            hist_b[Color.blue(pixels[i])]++;
+
+        }
+
+        for (int i = 1; i < 255; i++) {
+            hist_r[i] += hist_r[i - 1];
+            hist_g[i] += hist_g[i - 1];
+            hist_b[i] += hist_b[i - 1];
+        }
+        for (int i = 0; i < pixels.length; i++) {
+            if (Color.red(pixels[i]) != 255 && Color.green(pixels[i]) != 255 && Color.blue(pixels[i]) != 255) {
+                r = (hist_r[Color.red(pixels[i])] * 254) / hist_r[254];
+                g = (hist_r[Color.green(pixels[i])] * 254) / hist_r[254];
+                b = (hist_r[Color.blue(pixels[i])] * 254) / hist_r[254];
+            } else {
+                r = 255;
+                g = 255;
+                b = 255;
+            }
+            pixels[i] = Color.rgb(r, g, b);
+        }
+        img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
+    }
+
+    /**
+     *  Apply a convolution filter on the bitmap.
+     *
+     * @param mask Mask to apply on the bitmap
+     */
+
+    public void convolve(int[][] mask){
+        int n = mask.length;
+
+        int somme = 0;
+        for(int i=0; i<n; i++ ){
+            for (int j=0; j<n; j++){
+                somme+=mask[i][j];
+            }
+        }
+        int [] convolveColors = new int[w*h];
+
+        img_actual.getPixels(pixels,0,w,0,0,w,h);
+
+        int line = 0;
+        float convolveValue_r = 0;
+        float convolveValue_g = 0;
+        float convolveValue_b = 0;
+
+        for(int i=0;i<pixels.length;i+=w){
+            for(int j=0;j<w;j++){
+                if(j<(n-1)/2 || j>=w-((n-1)/2) || line<(n-1)/2 || line>=h-((n-1)/2)){
+                    convolveColors[i+j]= Color.rgb(0,0,0);
+                }
+                else{
+                    int row=0;
+                    for(int k=i-w*((n-1)/2); k<=i+w*((n-1)/2); k+=w){
+                        int column =0;
+                        for(int l=j-((n-1)/2); l<=j+((n-1)/2); l++){
+                            convolveValue_r += mask[row][column]*Color.red(pixels[k+l]);
+                            convolveValue_g += mask[row][column]*Color.green(pixels[k+l]);
+                            convolveValue_b += mask[row][column]*Color.blue(pixels[k+l]);
+                            column++;
+                        }
+                        row++;
+                    }
+                    convolveColors[i+j]= Color.rgb((int) convolveValue_r/(somme),(int) convolveValue_g/(somme),(int) convolveValue_b/(somme));
+                    convolveValue_r=0;
+                    convolveValue_g=0;
+                    convolveValue_b=0;
+                }
+            }
+            line++;
+        }
+        img_actual.setPixels(convolveColors,0,w,0,0,w,h);
     }
 
 }

@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ImageEditorL3</string>
+
+    <string name="testImage1">Test Image</string>
+
+    <string name="button1">Reset</string>
+    <string name="button2">Gray</string>
+    <string name="button3">Gray RS</string>
+    <string name="button4">Colorize</string>
+    <string name="button5">Contrast DE</string>
+    <string name="button6">Contrast HE</string>
+    <string name="button7">Convolve</string>
+
+    <string name="imageDescription">Test image</string>
 </resources>

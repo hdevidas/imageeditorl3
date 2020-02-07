@@ -106,5 +106,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button bt_colorize = findViewById(R.id.colorize);
+        bt_colorize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img1.colorize();
+            }
+        });
+
+        Button bt_contrastDE = findViewById(R.id.contrastDE);
+        bt_contrastDE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img1.contrastDE();
+            }
+        });
+
+        Button bt_contrastHE = findViewById(R.id.contrastHE);
+        bt_contrastHE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img1.contrastHE();
+            }
+        });
+
+        final Button bt_convolve = findViewById(R.id.convolve);
+        bt_convolve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[][] mask =
+                        {
+                                {1, 2, 3, 2, 1},
+                                {2, 6, 8, 6, 2},
+                                {3, 8, 10, 8, 3},
+                                {2, 6, 8, 6, 2},
+                                {1, 2, 3, 2, 1}
+                        };
+                img1.convolve(mask);
+            }
+        });
+
     }
 }
