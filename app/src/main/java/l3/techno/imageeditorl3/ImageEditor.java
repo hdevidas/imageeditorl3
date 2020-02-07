@@ -21,6 +21,9 @@ public class ImageEditor extends AppCompatActivity {
     int w;
     int h;
     private int[] pixels;
+
+
+    Img image;
     //Dimensions ??
 
     //Constructeur
@@ -31,6 +34,7 @@ public class ImageEditor extends AppCompatActivity {
         h = img.getHeight();
         pixels = new int[w * h];
     }
+
 
     /**
      * Reset the bitmap.
