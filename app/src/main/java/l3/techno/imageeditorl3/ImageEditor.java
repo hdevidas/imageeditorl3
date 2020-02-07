@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.renderscript.Allocation;
 import androidx.renderscript.RenderScript;
 
-import static l3.techno.imageeditorl3.MainActivity.imv;
+import static l3.techno.imageeditorl3.EditorActivity.imv;
 
 public class ImageEditor extends AppCompatActivity {
 
