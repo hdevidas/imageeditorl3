@@ -75,23 +75,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_default" />
 
+    <ImageView
+        android:id="@+id/lena"
+        android:layout_width="409dp"
+        android:layout_height="409dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/imageDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/textview"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/bt_default"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/lena"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/imageDescription"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

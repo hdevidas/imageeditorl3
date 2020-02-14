@@ -3,6 +3,9 @@
 
     <string name="testImage1">Test Image</string>
 
+    <string name="beginbutton1">New</string>
+    <string name="beginbutton2">Load</string>
+
     <string name="button1">Reset</string>
     <string name="button2">Gray</string>
     <string name="button3">Gray RS</string>
