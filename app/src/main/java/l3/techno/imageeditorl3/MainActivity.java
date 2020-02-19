@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 CustumPopup custumPopup = new CustumPopup(activity);
+
                 custumPopup.getGallerie().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                 });
-
                 custumPopup.getPhoto().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
