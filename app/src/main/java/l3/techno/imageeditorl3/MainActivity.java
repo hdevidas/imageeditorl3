@@ -8,23 +8,36 @@ import androidx.renderscript.RenderScript;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.chrisbanes.photoview.PhotoView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 public class MainActivity extends AppCompatActivity {
 
     static Bitmap img;
+    BitmapFactory.Options opts = new BitmapFactory.Options();
 
-    static ImageView imv;
+    static PhotoView imv;
 
     ImageEditor img1;
+
+    boolean visibility = true;
+
+    TextView tv;
 
 
 
@@ -50,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+        tv = findViewById(R.id.size);
 
-        imv = (ImageView) findViewById(R.id.lena);
-        BitmapFactory.Options opts = new BitmapFactory.Options();
+        imv = (PhotoView) findViewById(R.id.lena);
         opts.inMutable = true;
         opts.inScaled = false;
         img = BitmapFactory.decodeResource(getResources(), R.drawable.lena,opts);
@@ -65,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         // ----------------------BOUTONS---------------------
 
         //Bouton default (Remettre l'image par défaut)
-        Button bt_default = findViewById(R.id.bt_default);
+        final Button bt_default = findViewById(R.id.bt_default);
         bt_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,44 +88,49 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Bouton Gray v2 (codé avec getpixels)
-        Button bt_gray_2 = findViewById(R.id.bt_gray);
-        bt_gray_2.setOnClickListener(new View.OnClickListener() {
+        final Button bt_gray = findViewById(R.id.bt_gray);
+        bt_gray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 img1.toGray();
+                imv.setImageBitmap(img1.img_actual);
             }
         });
 
         //Bouton Gray v3 (codé avec renderscript) #3
-        Button bt_grayRS = findViewById(R.id.bt_grayRS);
+        final Button bt_grayRS = findViewById(R.id.bt_grayRS);
         bt_grayRS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toGrayRS(img1.img_actual);
+                imv.setImageBitmap(img1.img_actual);
             }
         });
 
-        Button bt_colorize = findViewById(R.id.colorize);
+        final Button bt_colorize = findViewById(R.id.colorize);
         bt_colorize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 img1.colorize();
+                imv.setImageBitmap(img1.img_actual);
             }
         });
 
-        Button bt_contrastDE = findViewById(R.id.contrastDE);
+        final Button bt_contrastDE = findViewById(R.id.contrastDE);
         bt_contrastDE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 img1.contrastDE();
+                imv.setImageBitmap(img1.img_actual);
             }
         });
 
-        Button bt_contrastHE = findViewById(R.id.contrastHE);
+        final Button bt_contrastHE = findViewById(R.id.contrastHE);
         bt_contrastHE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 img1.contrastHE();
+                imv.setImageBitmap(img1.img_actual);
             }
         });
 
@@ -122,15 +140,86 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int[][] mask =
                         {
-                                {1, 2, 3, 2, 1},
-                                {2, 6, 8, 6, 2},
-                                {3, 8, 10, 8, 3},
-                                {2, 6, 8, 6, 2},
-                                {1, 2, 3, 2, 1}
+                                {10, 20, 30, 20, 10},
+                                {20, 60, 80, 60, 20},
+                                {30, 80, 100, 80, 30},
+                                {20, 60, 80, 60, 20},
+                                {10, 20, 30, 20, 10}
                         };
                 img1.convolve(mask);
+                imv.setImageBitmap(img1.img_actual);
             }
         });
+
+        ImageButton gallery = findViewById(R.id.gallery);
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_IMAGE);
+            }
+        });
+
+        Button menu = findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(visibility){
+                    bt_default.setVisibility(View.GONE);
+                    bt_gray.setVisibility(View.GONE);
+                    bt_grayRS.setVisibility(View.GONE);
+                    bt_colorize.setVisibility(View.GONE);
+                    bt_contrastDE.setVisibility(View.GONE);
+                    bt_contrastHE.setVisibility(View.GONE);
+                    bt_convolve.setVisibility(View.GONE);
+                }
+                else {
+
+                    bt_default.setVisibility(View.VISIBLE);
+                    bt_gray.setVisibility(View.VISIBLE);
+                    bt_grayRS.setVisibility(View.VISIBLE);
+                    bt_colorize.setVisibility(View.VISIBLE);
+                    bt_contrastDE.setVisibility(View.VISIBLE);
+                    bt_contrastHE.setVisibility(View.VISIBLE);
+                    bt_convolve.setVisibility(View.VISIBLE);
+
+                }
+
+                visibility = !visibility;
+            }
+        });
+
+        tv.setText(img1.toString());
+    }
+
+    Integer SELECT_IMAGE = 1;
+    Integer TAKE_PHOTO = 2;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE) {
+            Uri picturePath = data.getData();
+            InputStream pictureInputStream;
+            opts.inMutable = true;
+            opts.inScaled = false;
+            try {
+                pictureInputStream = getContentResolver().openInputStream(picturePath);
+                img1 = new ImageEditor(BitmapFactory.decodeStream(pictureInputStream,null,opts));
+                imv.setImageBitmap(img1.img_actual);
+                tv.setText(img1.toString());
+                //imv.setRotation(90);
+            } catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
+        }
+
+        if(requestCode == TAKE_PHOTO) {
+            img1 = new ImageEditor((Bitmap) data.getExtras().get("data"));
+            imv.setImageBitmap(img1.img_actual);
+            tv.setText(img1.toString());
+        }
 
     }
 

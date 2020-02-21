@@ -29,7 +29,7 @@ public class ImageEditor extends AppCompatActivity {
     //Constructeur
     public ImageEditor(Bitmap img){
         this.img_backup = img.copy(img.getConfig(),true);
-        this.img_actual = img;
+        this.img_actual = img.copy(img.getConfig(),true);
         w = img.getWidth();
         h = img.getHeight();
         pixels = new int[w * h];
@@ -414,6 +414,10 @@ public class ImageEditor extends AppCompatActivity {
             line++;
         }
         img_actual.setPixels(convolveColors,0,w,0,0,w,h);
+    }
+
+    public String toString(){
+        return w + " x "+ h;
     }
 
 }

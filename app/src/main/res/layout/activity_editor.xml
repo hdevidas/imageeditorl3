@@ -6,87 +6,128 @@
     android:layout_height="match_parent"
     tools:context=".EditorActivity">
 
-    <Button
-        android:id="@+id/bt_default"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="48dp"
-        android:text="@string/button1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/bt_gray"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/bt_default"
-        android:layout_centerInParent="true"
-        android:text="@string/button2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_default" />
-
-    <Button
-        android:id="@+id/bt_grayRS"
-        android:layout_width="135dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/bt_default"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="132dp"
-        android:text="@string/button3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_default" />
-
-    <Button
-        android:id="@+id/colorize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="264dp"
-        android:text="@string/button4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_default" />
-
-    <Button
-        android:id="@+id/contrastDE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/button5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_default" />
-
-    <Button
-        android:id="@+id/contrastHE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/button6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_default" />
-
-    <Button
-        android:id="@+id/convolve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="232dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/button7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_default" />
-
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/lena"
-        android:layout_width="409dp"
-        android:layout_height="409dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="128dp"
-        android:contentDescription="@string/imageDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.989" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <ImageButton
+        android:id="@+id/gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115" />
+
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/lena"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lena"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button1" />
+
+            <Button
+                android:id="@+id/bt_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button2" />
+
+            <Button
+                android:id="@+id/bt_grayRS"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:text="@string/button3" />
+
+            <Button
+                android:id="@+id/colorize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button4" />
+
+            <Button
+                android:id="@+id/contrastDE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button5" />
+
+            <Button
+                android:id="@+id/contrastHE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button6" />
+
+            <Button
+                android:id="@+id/convolve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button7" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
