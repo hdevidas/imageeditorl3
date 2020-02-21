@@ -2,9 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/gray"
+    <item android:id="@+id/item1"
         android:title="gray"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/item2"
+        android:title="@string/button4"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item3"
+        android:title="Contrast"
+        app:showAsAction="never">
+
+        <menu>
+
+            <item android:id="@+id/subitem1"
+                android:title="Dynamic Extension"/>
+
+            <item android:id="@+id/subitem2"
+                android:title="Histogram Equalization"/>
+
+        </menu>
+
+    </item>
 
 
 </menu>

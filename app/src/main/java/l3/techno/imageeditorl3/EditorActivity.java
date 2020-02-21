@@ -1,5 +1,6 @@
 package l3.techno.imageeditorl3;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.renderscript.Allocation;
 import androidx.renderscript.RenderScript;
@@ -7,6 +8,9 @@ import androidx.renderscript.RenderScript;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,7 +47,6 @@ public class EditorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-        TextView tv = (TextView) findViewById(R.id.textview);
 
         imv = (ImageView) findViewById(R.id.lena);
         BitmapFactory.Options opts = new BitmapFactory.Options();
@@ -125,5 +128,31 @@ public class EditorActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.editor_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        imv = (ImageView) findViewById(R.id.lena);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inMutable = true;
+        opts.inScaled = false;
+        final Bitmap img = BitmapFactory.decodeResource(getResources(), R.drawable.lena,opts);
+        final ImageEditor img1 = new ImageEditor(img);
+
+        switch (item.getItemId()){
+            case R.id.item1:
+                img1.toGray();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
