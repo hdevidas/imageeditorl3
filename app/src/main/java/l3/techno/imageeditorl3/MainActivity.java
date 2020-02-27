@@ -170,12 +170,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 seekbar.setVisibility(View.VISIBLE);
-                seekbar.setMax(100);
+                seekbar.setMax(500);
                 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         img1.useSavedImg();
-                        img1.brightness(progress-50);
+                        img1.brightness(progress-250);
                         imv.setImageBitmap(img1.img_actual);
                     }
 
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                seekbar.setProgress(50);
+                seekbar.setProgress(250);
             }
         });
 
