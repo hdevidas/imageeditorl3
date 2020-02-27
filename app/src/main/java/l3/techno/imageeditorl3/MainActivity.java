@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.github.chrisbanes.photoview.PhotoView;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     BitmapFactory.Options opts = new BitmapFactory.Options();
 
     static PhotoView imv;
+    SeekBar seekbar;
 
     ImageEditor img1;
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
         tv = findViewById(R.id.size);
+
+        seekbar = findViewById(R.id.seekBar);
 
         imv = (PhotoView) findViewById(R.id.lena);
         opts.inMutable = true;
@@ -111,8 +115,23 @@ public class MainActivity extends AppCompatActivity {
         bt_colorize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                img1.colorize();
-                imv.setImageBitmap(img1.img_actual);
+                seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        img1.colorize((float)progress);
+                        imv.setImageBitmap(img1.img_actual);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
             }
         });
 
@@ -151,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton gallery = findViewById(R.id.gallery);
+        final ImageButton gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +192,9 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastDE.setVisibility(View.GONE);
                     bt_contrastHE.setVisibility(View.GONE);
                     bt_convolve.setVisibility(View.GONE);
+                    gallery.setVisibility(View.GONE);
+
+                    tv.setVisibility(View.GONE);
                 }
                 else {
 
@@ -183,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastDE.setVisibility(View.VISIBLE);
                     bt_contrastHE.setVisibility(View.VISIBLE);
                     bt_convolve.setVisibility(View.VISIBLE);
+                    gallery.setVisibility(View.VISIBLE);
+
+                    tv.setVisibility(View.VISIBLE);
 
                 }
 
@@ -209,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 img1 = new ImageEditor(BitmapFactory.decodeStream(pictureInputStream,null,opts));
                 imv.setImageBitmap(img1.img_actual);
                 tv.setText(img1.toString());
-                //imv.setRotation(90);
+                imv.setRotation(90);
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }

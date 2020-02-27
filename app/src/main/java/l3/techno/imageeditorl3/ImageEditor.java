@@ -191,10 +191,8 @@ public class ImageEditor extends AppCompatActivity {
      * Change the bitmap hue in a random way.
      *
      */
-    public void colorize(){
+    public void colorize(float hue){
         int r, g, b;
-        Random rdt = new Random();
-        float hue = (float) rdt.nextInt(360);
 
         img_actual.getPixels(pixels,0,w,0,0,w,h);
 
