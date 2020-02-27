@@ -113,12 +113,15 @@ public class MainActivity extends AppCompatActivity {
 
         final Button bt_colorize = findViewById(R.id.colorize);
         bt_colorize.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.VISIBLE);
+                seekbar.setMax(359);
                 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        img1.colorize((float)progress);
+                        img1.colorize(progress);
                         imv.setImageBitmap(img1.img_actual);
                     }
 

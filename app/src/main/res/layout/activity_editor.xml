@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditorActivity">
+    tools:context=".MainActivity">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/lena"
@@ -72,8 +72,9 @@
         android:layout_width="221dp"
         android:layout_height="20dp"
         android:layout_marginBottom="12dp"
-        android:max="359"
+        android:max="1"
         android:progress="0"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
