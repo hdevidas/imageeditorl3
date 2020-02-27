@@ -13,6 +13,7 @@
     <string name="button5">Contrast DE</string>
     <string name="button6">Contrast HE</string>
     <string name="button7">Convolve</string>
+    <string name="button8">Brightness</string>
 
     <string name="imageDescription">Test image</string>
 </resources>

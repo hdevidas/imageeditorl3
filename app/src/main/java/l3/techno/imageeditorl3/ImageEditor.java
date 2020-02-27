@@ -1,20 +1,15 @@
 package l3.techno.imageeditorl3;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.widget.ImageView;
-
-import java.util.Random;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.renderscript.Allocation;
-import androidx.renderscript.RenderScript;
 
 public class ImageEditor extends AppCompatActivity {
 
     //Attributs
     public Bitmap img_backup;
+    public Bitmap img_saved;
     public Bitmap img_actual;
     int w;
     int h;
@@ -26,11 +21,20 @@ public class ImageEditor extends AppCompatActivity {
 
     //Constructeur
     public ImageEditor(Bitmap img){
+
         this.img_backup = img.copy(img.getConfig(),true);
+        this.img_saved = img.copy(img.getConfig(),true);
         this.img_actual = img.copy(img.getConfig(),true);
+
         w = img.getWidth();
         h = img.getHeight();
+
         pixels = new int[w * h];
+
+        this.img_backup.getPixels(pixels, 0, w, 0, 0, w, h);
+
+        this.img_saved.setPixels(pixels, 0, w, 0, 0, w, h);
+        this.img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
     }
 
 
@@ -43,6 +47,19 @@ public class ImageEditor extends AppCompatActivity {
     }
 
     /**
+     * Save the image displayed
+     */
+    public void saveImg(){
+        img_actual.getPixels(pixels, 0, w, 0, 0, w, h);
+        img_saved.setPixels(pixels, 0, w, 0, 0, w, h);
+    }
+
+    public void useSavedImg(){
+        img_saved.getPixels(pixels, 0, w, 0, 0, w, h);
+        img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
+    }
+
+    /**
      * Put the bitmap in gray.
      */
     public void toGray(){
@@ -50,12 +67,16 @@ public class ImageEditor extends AppCompatActivity {
         int green;
         int blue;
         int grey;
+
         img_actual.getPixels(pixels,0,w,0,0,w,h);
+
         for (int i=0; i<pixels.length;i++){
             red= Color.red(pixels[i]);
             green=Color.green(pixels[i]);
             blue=Color.blue(pixels[i]);
+
             grey = (int) (red*0.3)+(int) (green*0.59)+(int) (blue*0.11);
+
             pixels[i]=Color.rgb(grey,grey,grey);
         }
         img_actual.setPixels(pixels,0,w,0,0,w,h);
@@ -186,8 +207,9 @@ public class ImageEditor extends AppCompatActivity {
     }
 
     /**
-     * Change the bitmap hue in a random way.
+     * Change the bitmap hue.
      *
+     * @param hue Hue selected
      */
     public void colorize(float hue){
         int r, g, b;
@@ -360,6 +382,27 @@ public class ImageEditor extends AppCompatActivity {
         img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
     }
 
+    public void brightness(int value){
+        int r, g, b;
+
+        for(int i=0; i<pixels.length; i++){
+            r=Color.red(pixels[i]);
+            g=Color.green(pixels[i]);
+            b=Color.blue(pixels[i]);
+
+            r+=value;
+            g+=value;
+            b+=value;
+
+            r = adjust(r);
+            g = adjust(g);
+            b = adjust(b);
+
+            pixels[i] = Color.rgb(r, g, b);
+        }
+        img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
+    }
+
     /**
      *  Apply a convolution filter on the bitmap.
      *
@@ -414,6 +457,18 @@ public class ImageEditor extends AppCompatActivity {
 
     public String toString(){
         return w + " x "+ h;
+    }
+
+    public int adjust(int value){
+        if(value>255){
+            value=255;
+        }
+        else{
+            if(value<0){
+                value=0;
+            }
+        }
+        return value;
     }
 
 }

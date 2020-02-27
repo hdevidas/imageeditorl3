@@ -20,11 +20,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import static android.widget.Toast.*;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         img = BitmapFactory.decodeResource(getResources(), R.drawable.lena,opts);
         img1 = new ImageEditor(img);
 
-        //img1.defaultImg();
+        //img1.defaultImg(); // Certaine fonctions ne fonctionnent pas si on
         imv.setImageBitmap(img1.img_actual);
 
 
@@ -86,8 +89,20 @@ public class MainActivity extends AppCompatActivity {
         bt_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 img1.defaultImg();
+                img1.saveImg();
                 imv.setImageBitmap(img1.img_actual);
+            }
+        });
+
+        final ImageButton bt_save = findViewById(R.id.save);
+        bt_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img1.saveImg();
+                Toast toast = Toast.makeText(getApplicationContext(),"Your changes have been saved", LENGTH_SHORT);
+                toast.show();
             }
         });
 
@@ -96,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         bt_gray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 img1.toGray();
                 imv.setImageBitmap(img1.img_actual);
             }
@@ -106,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         bt_grayRS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 toGrayRS(img1.img_actual);
                 imv.setImageBitmap(img1.img_actual);
             }
@@ -120,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        img1.useSavedImg();
                         img1.colorize(progress);
                         imv.setImageBitmap(img1.img_actual);
                     }
@@ -134,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+                seekbar.setProgress(0);
             }
         });
 
@@ -146,10 +165,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final Button bt_brightness = findViewById(R.id.brightness);
+        bt_brightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekbar.setVisibility(View.VISIBLE);
+                seekbar.setMax(100);
+                seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        img1.useSavedImg();
+                        img1.brightness(progress-50);
+                        imv.setImageBitmap(img1.img_actual);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+                seekbar.setProgress(50);
+            }
+        });
+
         final Button bt_contrastHE = findViewById(R.id.contrastHE);
         bt_contrastHE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 img1.contrastHE();
                 imv.setImageBitmap(img1.img_actual);
             }
@@ -159,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         bt_convolve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 int[][] mask =
                         {
                                 {10, 20, 30, 20, 10},
@@ -166,6 +215,13 @@ public class MainActivity extends AppCompatActivity {
                                 {30, 80, 100, 80, 30},
                                 {20, 60, 80, 60, 20},
                                 {10, 20, 30, 20, 10}
+                        };
+
+                int[][] mask2 =
+                        {
+                                {-1, 0, 1},
+                                {-2, 0, 2},
+                                {-1, 0, 1},
                         };
                 img1.convolve(mask);
                 imv.setImageBitmap(img1.img_actual);
@@ -176,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
                 startActivityForResult(intent.createChooser(intent, "Select File"), SELECT_IMAGE);
@@ -186,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
                 Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent2.resolveActivity(getPackageManager()) != null) {
 
@@ -209,7 +267,9 @@ public class MainActivity extends AppCompatActivity {
                     bt_convolve.setVisibility(View.GONE);
                     gallery.setVisibility(View.GONE);
                     photo.setVisibility(View.GONE);
+                    bt_brightness.setVisibility(View.GONE);
 
+                    seekbar.setVisibility(View.GONE);
 
                     tv.setVisibility(View.GONE);
                 }
@@ -224,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_convolve.setVisibility(View.VISIBLE);
                     gallery.setVisibility(View.VISIBLE);
                     photo.setVisibility(View.VISIBLE);
+                    bt_brightness.setVisibility(View.VISIBLE);
 
 
                     tv.setVisibility(View.VISIBLE);
