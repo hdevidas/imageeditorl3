@@ -112,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final Button bt_colorize = findViewById(R.id.colorize);
-        bt_colorize.setOnClickListener(new View.OnClickListener() {
+
+        bt_colorize.setOnClickListener(new SeekBar.OnClickListener() {
             @Override
             public void onClick(View v) {
                 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -180,12 +181,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton photo = findViewById((R.id.photo));
+        final ImageButton photo = findViewById((R.id.photo));
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent2.resolveActivity(getPackageManager()) != null) {
+
                     startActivityForResult(intent2, TAKE_PHOTO);
                 }
             }
@@ -205,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastHE.setVisibility(View.GONE);
                     bt_convolve.setVisibility(View.GONE);
                     gallery.setVisibility(View.GONE);
+                    photo.setVisibility(View.GONE);
+
 
                     tv.setVisibility(View.GONE);
                 }
@@ -218,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastHE.setVisibility(View.VISIBLE);
                     bt_convolve.setVisibility(View.VISIBLE);
                     gallery.setVisibility(View.VISIBLE);
+                    photo.setVisibility(View.VISIBLE);
+
 
                     tv.setVisibility(View.VISIBLE);
 
@@ -244,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 pictureInputStream = getContentResolver().openInputStream(picturePath);
                 img1 = new ImageEditor(BitmapFactory.decodeStream(pictureInputStream,null,opts));
+
                 //img1.img_actual.setRotation(90);
                 imv.setImageBitmap(img1.img_actual);
                 tv.setText(img1.toString());
