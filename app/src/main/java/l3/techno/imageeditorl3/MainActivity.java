@@ -161,6 +161,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton photo = findViewById((R.id.photo));
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent2.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(intent2, TAKE_PHOTO);
+                }
+            }
+        });
+
+
         Button menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,9 +219,9 @@ public class MainActivity extends AppCompatActivity {
             try {
                 pictureInputStream = getContentResolver().openInputStream(picturePath);
                 img1 = new ImageEditor(BitmapFactory.decodeStream(pictureInputStream,null,opts));
+                //img1.img_actual.setRotation(90);
                 imv.setImageBitmap(img1.img_actual);
                 tv.setText(img1.toString());
-                //imv.setRotation(90);
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }
