@@ -265,9 +265,11 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastDE.setVisibility(View.GONE);
                     bt_contrastHE.setVisibility(View.GONE);
                     bt_convolve.setVisibility(View.GONE);
+                    bt_brightness.setVisibility(View.GONE);
+                    bt_save.setVisibility(View.GONE);
                     gallery.setVisibility(View.GONE);
                     photo.setVisibility(View.GONE);
-                    bt_brightness.setVisibility(View.GONE);
+
 
                     seekbar.setVisibility(View.GONE);
 
@@ -282,9 +284,10 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastDE.setVisibility(View.VISIBLE);
                     bt_contrastHE.setVisibility(View.VISIBLE);
                     bt_convolve.setVisibility(View.VISIBLE);
+                    bt_brightness.setVisibility(View.VISIBLE);
+                    bt_save.setVisibility(View.VISIBLE);
                     gallery.setVisibility(View.VISIBLE);
                     photo.setVisibility(View.VISIBLE);
-                    bt_brightness.setVisibility(View.VISIBLE);
 
 
                     tv.setVisibility(View.VISIBLE);
