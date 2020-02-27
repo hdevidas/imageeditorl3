@@ -234,6 +234,24 @@ public class ImageEditor extends AppCompatActivity {
         img_actual.setPixels(pixels,0,w,0,0,w,h);
     }
 
+
+    public void colorSaver(float hue){
+        int r, g, b;
+
+        img_actual.getPixels(pixels,0,w,0,0,w,h);
+
+        for (int i=0; i<pixels.length;i++) {
+            r = Color.red(pixels[i]);
+            g = Color.green(pixels[i]);
+            b = Color.blue(pixels[i]);
+            float[] hsv=rgbToHsv(r,g,b);
+            hsv[0]= hue;
+            pixels[i]=hsvToRgb(hsv);
+        }
+        img_actual.setPixels(pixels,0,w,0,0,w,h);
+    }
+
+
     public int max_r(int[] colors){
         int m=Color.red(colors[0]);
         int c_r;
