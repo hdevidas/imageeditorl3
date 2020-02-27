@@ -139,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         img1.useSavedImg();
                         img1.colorize(progress);
+                        img1.hue=progress;
                         imv.setImageBitmap(img1.img_actual);
+                        tv.setText("..." + progress);
                     }
 
                     @Override
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                seekbar.setProgress(0);
+                seekbar.setProgress(img1.hue);
             }
         });
 
@@ -176,7 +178,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         img1.useSavedImg();
                         img1.brightness(progress-250);
+                        img1.brightness = progress;
+
                         imv.setImageBitmap(img1.img_actual);
+                        tv.setText("..." + progress);
                     }
 
                     @Override
@@ -189,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                seekbar.setProgress(250);
+                seekbar.setProgress(img1.brightness);
             }
         });
 

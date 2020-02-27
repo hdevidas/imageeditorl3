@@ -15,6 +15,10 @@ public class ImageEditor extends AppCompatActivity {
     int h;
     private int[] pixels;
 
+    public int hue;
+    public int brightness=250;
+    public int contrastLevel;
+
 
     Img image;
     //Dimensions ??
@@ -44,6 +48,9 @@ public class ImageEditor extends AppCompatActivity {
     public void defaultImg(){
         img_backup.getPixels(pixels, 0, w, 0, 0, w, h);
         img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
+        hue = 0;
+        brightness = 250;
+
     }
 
     /**
