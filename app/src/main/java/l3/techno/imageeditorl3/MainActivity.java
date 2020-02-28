@@ -226,12 +226,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 filter.setVisibility(View.GONE);
                 seekbar.setVisibility(View.VISIBLE);
-                seekbar.setMax(500);
+                seekbar.setMax(320);
                 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         img1.useSavedImg();
-                        img1.colorSaver(progress-250);
+                        img1.colorSaver(progress);
 
                         imv.setImageBitmap(img1.img_actual);
                         tv.setText("..." + progress);
@@ -355,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_gray.setVisibility(View.GONE);
                     bt_grayRS.setVisibility(View.GONE);
                     bt_colorize.setVisibility(View.GONE);
+                    bt_colorSaver.setVisibility(View.GONE);
                     bt_contrastDE.setVisibility(View.GONE);
                     bt_contrastHE.setVisibility(View.GONE);
                     bt_convolve.setVisibility(View.GONE);
@@ -375,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_gray.setVisibility(View.VISIBLE);
                     bt_grayRS.setVisibility(View.VISIBLE);
                     bt_colorize.setVisibility(View.VISIBLE);
+                    bt_colorSaver.setVisibility(View.VISIBLE);
                     bt_contrastDE.setVisibility(View.VISIBLE);
                     bt_contrastHE.setVisibility(View.VISIBLE);
                     bt_convolve.setVisibility(View.VISIBLE);
@@ -409,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+                ".jpg",  /* suffix */
                 storageDir      /* directory */
         );
         currentPhotoPath = image.getAbsolutePath();
