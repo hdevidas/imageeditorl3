@@ -392,6 +392,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_convolve.setVisibility(View.GONE);
                     bt_brightness.setVisibility(View.GONE);
                     bt_save.setVisibility(View.GONE);
+                    captureImg.setVisibility(View.GONE);
                     gallery.setVisibility(View.GONE);
                     photo.setVisibility(View.GONE);
                     captureImg.setVisibility(View.GONE);
@@ -414,6 +415,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_convolve.setVisibility(View.VISIBLE);
                     bt_brightness.setVisibility(View.VISIBLE);
                     bt_save.setVisibility(View.VISIBLE);
+                    captureImg.setVisibility(View.VISIBLE);
                     gallery.setVisibility(View.VISIBLE);
                     photo.setVisibility(View.VISIBLE);
                     captureImg.setVisibility((View.VISIBLE));
