@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         //Bouton Gray v2 (codé avec getpixels)
         final Button bt_gray = findViewById(R.id.bt_gray);
         bt_gray.setOnClickListener(new View.OnClickListener() {
