@@ -111,6 +111,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button7_2" />
+
+        <Button
+            android:id="@+id/sobel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button7_3" />
     </LinearLayout>
 
     <HorizontalScrollView
