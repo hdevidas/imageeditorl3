@@ -32,7 +32,6 @@ import static android.widget.Toast.*;
 
 
 public class MainActivity extends AppCompatActivity {
-    //test
     static Bitmap img;
     BitmapFactory.Options opts = new BitmapFactory.Options();
 
