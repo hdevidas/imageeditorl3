@@ -2,15 +2,22 @@ package l3.techno.imageeditorl3;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.renderscript.Allocation;
 import androidx.renderscript.RenderScript;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +32,7 @@ import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.os.Environment;
@@ -34,6 +42,7 @@ import java.io.File;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Random;
 
 import static android.widget.Toast.*;
 
@@ -41,7 +50,7 @@ import static android.widget.Toast.*;
 public class MainActivity extends AppCompatActivity {
     static Bitmap img;
     BitmapFactory.Options opts = new BitmapFactory.Options();
-
+    private String photoPath = null;
     static PhotoView imv;
     SeekBar seekbar;
     LinearLayout filter;
@@ -313,7 +322,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         final ImageButton gallery = findViewById(R.id.gallery);
+
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,6 +344,20 @@ public class MainActivity extends AppCompatActivity {
                 TakePictureIntent();
             }
         });
+
+        final ImageButton captureImg = findViewById(R.id.captureImg);
+        captureImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaStore.Images.Media.insertImage(getContentResolver(), img1.img_actual, "nom image", "description");
+
+            }
+        });
+
+
+
+
+
 
 
         Button menu = findViewById(R.id.menu);
@@ -387,6 +413,8 @@ public class MainActivity extends AppCompatActivity {
 
     Integer SELECT_IMAGE = 1;
     Integer TAKE_PHOTO = 2;
+    Integer CAPTURE = 3;
+
 
     Uri photoURI;
     String currentPhotoPath;
@@ -403,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
     private void TakePictureIntent(){
         Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent2.resolveActivity(getPackageManager()) != null) {
@@ -420,6 +449,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -451,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
+
     }
-
-
 }

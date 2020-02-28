@@ -136,6 +136,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+
+
             <Button
                 android:id="@+id/bt_default"
                 android:layout_width="wrap_content"
@@ -194,6 +196,14 @@
         </LinearLayout>
 
     </HorizontalScrollView>
+
+    <ImageButton
+        android:id="@+id/captureImg"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
