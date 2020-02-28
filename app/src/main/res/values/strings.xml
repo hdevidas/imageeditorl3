@@ -15,7 +15,9 @@
     <string name="button7">Convolve</string>
     <string name="button7_1">Average</string>
     <string name="button7_2">Gaussian</string>
-    <string name="button7_3">Sobel</string>
+    <string name="button7_3">Effet 1</string>
+    <string name="button7_4">Effet 2</string>
+    <string name="button7_5">Effet 3</string>
     <string name="button8">Brightness</string>
     <string name="button9">ColorSaver</string>
 

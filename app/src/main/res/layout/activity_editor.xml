@@ -113,11 +113,25 @@
             android:text="@string/button7_2" />
 
         <Button
-            android:id="@+id/sobel"
+            android:id="@+id/effect1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/button7_3" />
+
+        <Button
+            android:id="@+id/effect2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button7_4" />
+
+        <Button
+            android:id="@+id/effect3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button7_5" />
     </LinearLayout>
 
     <HorizontalScrollView
