@@ -235,8 +235,8 @@ public class ImageEditor extends AppCompatActivity {
     }
 
 
-    public void colorSaver(float hue){
-        int r, g, b;
+    public void colorSaver(float param){
+        int r, g, b, grey;
 
         img_actual.getPixels(pixels,0,w,0,0,w,h);
 
@@ -245,8 +245,10 @@ public class ImageEditor extends AppCompatActivity {
             g = Color.green(pixels[i]);
             b = Color.blue(pixels[i]);
             float[] hsv=rgbToHsv(r,g,b);
-            hsv[0]= hue;
-            pixels[i]=hsvToRgb(hsv);
+            if(!((hsv[0] >= param-30) && (hsv[0] <= param+30))){ //si la teinte de l'image est plus ou moins 10 celle donnée en param
+                grey = (int) (r*0.3)+(int) (g*0.59)+(int) (b*0.11);
+                pixels[i]=Color.rgb(grey,grey,grey);
+            }
         }
         img_actual.setPixels(pixels,0,w,0,0,w,h);
     }
