@@ -151,6 +151,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button4" />
 
+
+            <Button
+                android:id="@+id/colorSaver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button9" />
+
             <Button
                 android:id="@+id/contrastDE"
                 android:layout_width="wrap_content"

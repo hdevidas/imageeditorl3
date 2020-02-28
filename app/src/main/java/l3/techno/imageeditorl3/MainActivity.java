@@ -198,6 +198,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        final Button bt_colorSaver = findViewById(R.id.colorSaver);
+        bt_colorSaver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekbar.setVisibility(View.VISIBLE);
+                seekbar.setMax(500);
+                seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        img1.useSavedImg();
+                        img1.colorSaver(progress-250);
+
+                        imv.setImageBitmap(img1.img_actual);
+                        tv.setText("..." + progress);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+                seekbar.setProgress(img1.brightness);
+            }
+        });
+
         final Button bt_contrastHE = findViewById(R.id.contrastHE);
         bt_contrastHE.setOnClickListener(new View.OnClickListener() {
             @Override
