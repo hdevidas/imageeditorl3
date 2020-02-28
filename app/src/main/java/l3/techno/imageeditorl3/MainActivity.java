@@ -1,6 +1,6 @@
 package l3.techno.imageeditorl3;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.renderscript.Allocation;
@@ -18,13 +18,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -33,7 +29,6 @@ import android.graphics.Matrix;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import android.os.Environment;
@@ -43,7 +38,6 @@ import java.io.File;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Random;
 
 import static android.widget.Toast.*;
 
@@ -51,7 +45,6 @@ import static android.widget.Toast.*;
 public class MainActivity extends AppCompatActivity {
     static Bitmap img;
     BitmapFactory.Options opts = new BitmapFactory.Options();
-    private String photoPath = null;
     static PhotoView imv;
     SeekBar seekbar;
     LinearLayout filter;
@@ -380,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_save.setVisibility(View.GONE);
                     gallery.setVisibility(View.GONE);
                     photo.setVisibility(View.GONE);
+                    captureImg.setVisibility(View.GONE);
 
                     filter.setVisibility(View.GONE);
 
@@ -401,6 +395,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_save.setVisibility(View.VISIBLE);
                     gallery.setVisibility(View.VISIBLE);
                     photo.setVisibility(View.VISIBLE);
+                    captureImg.setVisibility((View.VISIBLE));
 
 
                     tv.setVisibility(View.VISIBLE);
@@ -416,7 +411,6 @@ public class MainActivity extends AppCompatActivity {
 
     Integer SELECT_IMAGE = 1;
     Integer TAKE_PHOTO = 2;
-    Integer CAPTURE = 3;
 
 
     Uri photoURI;
@@ -452,12 +446,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
 
 
     @Override
