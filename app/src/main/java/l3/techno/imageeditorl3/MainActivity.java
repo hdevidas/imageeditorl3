@@ -25,6 +25,13 @@ import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import android.os.Environment;
+import androidx.core.content.FileProvider;
+import java.io.IOException;
+import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -369,6 +376,39 @@ public class MainActivity extends AppCompatActivity {
     Integer SELECT_IMAGE = 1;
     Integer TAKE_PHOTO = 2;
 
+    Uri photoURI;
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+    private void TakePictureIntent(){
+        Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent2.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+            if (photoFile != null) {
+                photoURI = FileProvider.getUriForFile(this,"com.example.android.fileprovider",photoFile);
+                intent2.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(intent2, TAKE_PHOTO);
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -390,11 +430,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(requestCode == TAKE_PHOTO) {
-            img1 = new ImageEditor((Bitmap) data.getExtras().get("data"));
-            imv.setImageBitmap(img1.img_actual);
-            tv.setText(img1.toString());
+            try {
+                img1 = new ImageEditor(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI));
+                imv.setImageBitmap(img1.img_actual);
+                tv.setText(img1.toString());
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
 
     }
+
 
 }
