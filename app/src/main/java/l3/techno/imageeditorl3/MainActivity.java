@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     static PhotoView imv;
     SeekBar seekbar;
+    LinearLayout filter;
 
     ImageEditor img1;
 
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         bt_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                filter.setVisibility(View.GONE);
                 seekbar.setVisibility(View.GONE);
                 img1.defaultImg();
                 img1.saveImg();
@@ -141,7 +144,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         img1.useSavedImg();
                         img1.colorize(progress);
+                        img1.hue=progress;
                         imv.setImageBitmap(img1.img_actual);
+                        tv.setText("..." + progress);
                     }
 
                     @Override
@@ -154,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                seekbar.setProgress(0);
+                seekbar.setProgress(img1.hue);
             }
         });
 
@@ -171,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         bt_brightness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                filter.setVisibility(View.GONE);
                 seekbar.setVisibility(View.VISIBLE);
                 seekbar.setMax(500);
                 seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -178,7 +184,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         img1.useSavedImg();
                         img1.brightness(progress-250);
+                        img1.brightness = progress;
+
                         imv.setImageBitmap(img1.img_actual);
+                        tv.setText("..." + progress);
                     }
 
                     @Override
@@ -191,7 +200,39 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                seekbar.setProgress(250);
+                seekbar.setProgress(img1.brightness);
+            }
+        });
+
+
+        final Button bt_colorSaver = findViewById(R.id.colorSaver);
+        bt_colorSaver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filter.setVisibility(View.GONE);
+                seekbar.setVisibility(View.VISIBLE);
+                seekbar.setMax(500);
+                seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        img1.useSavedImg();
+                        img1.colorSaver(progress-250);
+
+                        imv.setImageBitmap(img1.img_actual);
+                        tv.setText("..." + progress);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+                seekbar.setProgress(img1.brightness);
             }
         });
 
@@ -205,11 +246,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         final Button bt_convolve = findViewById(R.id.convolve);
+        final Button bt_Gauss = findViewById(R.id.gaussien);
+        final Button bt_average = findViewById(R.id.moyenneur);
+        filter= findViewById(R.id.filter);
         bt_convolve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 seekbar.setVisibility(View.GONE);
+                filter.setVisibility(View.VISIBLE);
+            }
+        });
+
+        bt_average.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[][] mask =
+                        {
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1}
+                        };
+                img1.convolve(mask);
+                imv.setImageBitmap(img1.img_actual);
+            }
+        });
+        bt_Gauss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 int[][] mask =
                         {
                                 {10, 20, 30, 20, 10},
@@ -218,17 +286,12 @@ public class MainActivity extends AppCompatActivity {
                                 {20, 60, 80, 60, 20},
                                 {10, 20, 30, 20, 10}
                         };
-
-                int[][] mask2 =
-                        {
-                                {-1, 0, 1},
-                                {-2, 0, 2},
-                                {-1, 0, 1},
-                        };
                 img1.convolve(mask);
                 imv.setImageBitmap(img1.img_actual);
             }
         });
+
+
 
         final ImageButton gallery = findViewById(R.id.gallery);
         gallery.setOnClickListener(new View.OnClickListener() {
@@ -272,6 +335,7 @@ public class MainActivity extends AppCompatActivity {
                     gallery.setVisibility(View.GONE);
                     photo.setVisibility(View.GONE);
 
+                    filter.setVisibility(View.GONE);
 
                     seekbar.setVisibility(View.GONE);
 
