@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.graphics.Matrix;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
@@ -381,6 +382,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MediaStore.Images.Media.insertImage(getContentResolver(), img1.img_actual, "nom image", "description");
+                Toast toast = Toast.makeText(getApplicationContext(),"Picture saved", LENGTH_SHORT);
+                toast.show();
 
             }
         });
@@ -500,7 +503,6 @@ public class MainActivity extends AppCompatActivity {
                 pictureInputStream = getContentResolver().openInputStream(picturePath);
                 img1 = new ImageEditor(BitmapFactory.decodeStream(pictureInputStream,null,opts));
 
-                //img1.img_actual.setRotation(90);
                 imv.setImageBitmap(img1.img_actual);
                 tv.setText(img1.toString());
             } catch (FileNotFoundException e){
@@ -511,8 +513,16 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == TAKE_PHOTO) {
             try {
                 img1 = new ImageEditor(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI));
-                imv.setImageBitmap(img1.img_actual);
                 tv.setText(img1.toString());
+                Matrix matrix = new Matrix();
+
+                matrix.postRotate(90);
+
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(img1.img_actual, img1.img_actual.getWidth(), img1.img_actual.getHeight(), true);
+
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+
+                imv.setImageBitmap(rotatedBitmap);
             }catch (IOException e){
                 e.printStackTrace();
             }
