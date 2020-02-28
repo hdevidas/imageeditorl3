@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
         final Button bt_convolve = findViewById(R.id.convolve);
         final Button bt_Gauss = findViewById(R.id.gaussien);
         final Button bt_average = findViewById(R.id.moyenneur);
+        final Button bt_sobel = findViewById(R.id.sobel);
         filter= findViewById(R.id.filter);
         bt_convolve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,6 +306,19 @@ public class MainActivity extends AppCompatActivity {
                 imv.setImageBitmap(img1.img_actual);
             }
         });
+        bt_sobel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[][] mask =
+                        {
+                                {1, 0, 1},
+                                {2, 0, 2},
+                                {1, 0, 1}
+                        };
+                img1.convolve(mask);
+                imv.setImageBitmap(img1.img_actual);
+            }
+        });
 
 
 
@@ -336,6 +350,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MediaStore.Images.Media.insertImage(getContentResolver(), img1.img_actual, "nom image", "description");
+                Toast toast = Toast.makeText(getApplicationContext(),"Picture saved", LENGTH_SHORT);
+                toast.show();
 
             }
         });
