@@ -108,31 +108,35 @@
 
         <Button
             android:id="@+id/moyenneur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="78dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
-            android:text="@string/button7_1" />
+            android:text="@string/button7_1"
+            android:textSize="10dp" />
 
         <Button
             android:id="@+id/gaussien"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="74dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
-            android:text="@string/button7_2" />
+            android:text="@string/button7_2"
+            android:textSize="10dp" />
 
         <Button
             android:id="@+id/effect1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
-            android:text="@string/button7_3" />
+            android:text="@string/button7_3"
+            android:textSize="10dp" />
 
         <Button
             android:id="@+id/effect2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
-            android:text="@string/button7_4" />
+            android:text="@string/button7_4"
+            android:textSize="10dp" />
     </LinearLayout>
 
     <HorizontalScrollView
