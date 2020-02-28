@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
                 pictureInputStream = getContentResolver().openInputStream(picturePath);
                 img1 = new ImageEditor(BitmapFactory.decodeStream(pictureInputStream,null,opts));
 
-                //img1.img_actual.setRotation(90);
+                //imv.setRotation(90);
                 imv.setImageBitmap(img1.img_actual);
                 tv.setText(img1.toString());
             } catch (FileNotFoundException e){
