@@ -482,6 +482,43 @@ public class ImageEditor extends AppCompatActivity {
         img_actual.setPixels(convolveColors,0,w,0,0,w,h);
     }
 
+    public void convolvebis(int[][] mask){
+        int coefficient= 4;
+        int w = img_actual.getWidth();
+        int h = img_actual.getHeight();
+        int[] pixels = new int[w * h];
+        int[] new_pixels = new int[w * h];
+        img_actual.getPixels(pixels, 0, w, 0, 0, w, h);
+
+        int offset = (coefficient -1) /2;
+
+        double gx;
+        double gy;
+        double g_xy;
+
+        for (int x = offset; x < img_actual.getWidth()-offset; x++) {
+            for (int y = offset; y < img_actual.getHeight()-offset; y++){
+                gx = 0;
+                for (int y2 = (y - offset); y2 <= (y + offset); y2++ ){
+                    gx = gx + ((pixels[y2 + (x+1)*w] & 0x00FF0000) >> 16) - ((pixels[y2 + (x-1)*w] & 0x00FF0000) >> 16);
+                }
+                gx = gx/coefficient;
+
+                gy = 0;
+                for (int x2 = (x - offset); x2 <= (x + offset); x2++ ){
+                    gy = gy + ((pixels[w*x2 +y+1] & 0x00FF0000) >> 16) - ((pixels[w*x2 +y-1] & 0x00FF0000) >> 16);
+                }
+                gy = gy/coefficient;
+
+                g_xy=(gy+gx)/2;
+                new_pixels[w*x+y] = ((int)gx & 0xff) << 16 | ((int)gx & 0xff) << 8 | ((int)gx & 0xff);
+                new_pixels[w*x+y] = ((int)g_xy & 0xff) << 16 | ((int)g_xy & 0xff) << 8 | ((int)g_xy & 0xff);
+            }
+        }
+
+        img_actual.setPixels(new_pixels, 0, w, 0, 0, w, h);
+    }
+
     public String toString(){
         return w + " x "+ h;
     }

@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
         final Button bt_convolve = findViewById(R.id.convolve);
         final Button bt_Gauss = findViewById(R.id.gaussien);
         final Button bt_average = findViewById(R.id.moyenneur);
+        final Button bt_sobel = findViewById(R.id.sobel);
         filter= findViewById(R.id.filter);
         bt_convolve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,6 +292,19 @@ public class MainActivity extends AppCompatActivity {
                                 {30, 80, 100, 80, 30},
                                 {20, 60, 80, 60, 20},
                                 {10, 20, 30, 20, 10}
+                        };
+                img1.convolve(mask);
+                imv.setImageBitmap(img1.img_actual);
+            }
+        });
+        bt_sobel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[][] mask =
+                        {
+                                {1, 0, 1},
+                                {2, 0, 2},
+                                {1, 0, 1}
                         };
                 img1.convolve(mask);
                 imv.setImageBitmap(img1.img_actual);
