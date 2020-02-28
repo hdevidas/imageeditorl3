@@ -266,7 +266,9 @@ public class MainActivity extends AppCompatActivity {
         final Button bt_convolve = findViewById(R.id.convolve);
         final Button bt_Gauss = findViewById(R.id.gaussien);
         final Button bt_average = findViewById(R.id.moyenneur);
-        final Button bt_sobel = findViewById(R.id.sobel);
+        final Button bt_effect1 = findViewById(R.id.effect1);
+        final Button bt_effect2 = findViewById(R.id.effect2);
+        final Button bt_effect3 = findViewById(R.id.effect3);
         filter= findViewById(R.id.filter);
         bt_convolve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         bt_average.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int[][] mask =
+                                int[][] mask =
                         {
                                 {1, 1, 1, 1, 1},
                                 {1, 1, 1, 1, 1},
@@ -306,16 +308,45 @@ public class MainActivity extends AppCompatActivity {
                 imv.setImageBitmap(img1.img_actual);
             }
         });
-        bt_sobel.setOnClickListener(new View.OnClickListener() {
+        bt_effect1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int[][] mask =
+                int[][] mask1 =
                         {
-                                {1, 0, 1},
-                                {2, 0, 2},
-                                {1, 0, 1}
+                                {-1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1},
+                                {-1, -1, 24, -1, -1},
+                                {-1, -1, -1, -1, -1},
+                                {-1, -1, -1, -1, -1}
                         };
-                img1.convolve(mask);
+                img1.convolve(mask1);
+                img1.toGray();
+                imv.setImageBitmap(img1.img_actual);
+            }
+        });
+
+        bt_effect2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[][] mask2 =
+                        {
+                                {-80, -50, -30, -10, 0},
+                                {-50, -30, -10, 0, 10},
+                                {-30, -10, 0, 10, 30},
+                                {-10, 0, 10, 30, 50},
+                                {0, 10, 30, 50, 80}
+                        };
+
+                img1.convolve(mask2);
+                img1.toGray();
+                imv.setImageBitmap(img1.img_actual);
+            }
+        });
+
+        bt_effect3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                img1.convolveBis(15);
                 imv.setImageBitmap(img1.img_actual);
             }
         });

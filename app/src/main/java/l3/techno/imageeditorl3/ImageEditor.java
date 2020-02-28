@@ -445,6 +445,9 @@ public class ImageEditor extends AppCompatActivity {
                 somme+=mask[i][j];
             }
         }
+        if (somme == 0){
+            somme =1;
+        }
         int [] convolveColors = new int[w*h];
 
         img_actual.getPixels(pixels,0,w,0,0,w,h);
@@ -472,6 +475,7 @@ public class ImageEditor extends AppCompatActivity {
                         row++;
                     }
                     convolveColors[i+j]= Color.rgb((int) convolveValue_r/(somme),(int) convolveValue_g/(somme),(int) convolveValue_b/(somme));
+
                     convolveValue_r=0;
                     convolveValue_g=0;
                     convolveValue_b=0;
@@ -482,15 +486,14 @@ public class ImageEditor extends AppCompatActivity {
         img_actual.setPixels(convolveColors,0,w,0,0,w,h);
     }
 
-    public void convolvebis(int[][] mask){
-        int coefficient= 4;
+    public void convolveBis(int masksize){
         int w = img_actual.getWidth();
         int h = img_actual.getHeight();
         int[] pixels = new int[w * h];
         int[] new_pixels = new int[w * h];
         img_actual.getPixels(pixels, 0, w, 0, 0, w, h);
 
-        int offset = (coefficient -1) /2;
+        int offset = (masksize -1) /2;
 
         double gx;
         double gy;
@@ -502,13 +505,13 @@ public class ImageEditor extends AppCompatActivity {
                 for (int y2 = (y - offset); y2 <= (y + offset); y2++ ){
                     gx = gx + ((pixels[y2 + (x+1)*w] & 0x00FF0000) >> 16) - ((pixels[y2 + (x-1)*w] & 0x00FF0000) >> 16);
                 }
-                gx = gx/coefficient;
+                gx = gx/masksize;
 
                 gy = 0;
                 for (int x2 = (x - offset); x2 <= (x + offset); x2++ ){
                     gy = gy + ((pixels[w*x2 +y+1] & 0x00FF0000) >> 16) - ((pixels[w*x2 +y-1] & 0x00FF0000) >> 16);
                 }
-                gy = gy/coefficient;
+                gy = gy/masksize;
 
                 g_xy=(gy+gx)/2;
                 new_pixels[w*x+y] = ((int)gx & 0xff) << 16 | ((int)gx & 0xff) << 8 | ((int)gx & 0xff);
