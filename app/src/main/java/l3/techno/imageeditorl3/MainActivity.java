@@ -479,15 +479,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 img1 = new ImageEditor(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI));
                 tv.setText(img1.toString());
-                Matrix matrix = new Matrix();
-
-                matrix.postRotate(90);
-
-                Bitmap scaledBitmap = Bitmap.createScaledBitmap(img1.img_actual, img1.img_actual.getWidth(), img1.img_actual.getHeight(), true);
-
-                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-
-                imv.setImageBitmap(rotatedBitmap);
+                imv.setImageBitmap(img1.img_actual);
             }catch (IOException e){
                 e.printStackTrace();
             }
