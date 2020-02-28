@@ -2,6 +2,11 @@ package l3.techno.imageeditorl3;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -56,16 +61,35 @@ public class ImageEditor extends AppCompatActivity {
     /**
      * Save the image displayed
      */
-    public void saveImg(){
+    /*public void saveImg(){
         img_actual.getPixels(pixels, 0, w, 0, 0, w, h);
         img_saved.setPixels(pixels, 0, w, 0, 0, w, h);
     }
+    */
 
     public void useSavedImg(){
         img_saved.getPixels(pixels, 0, w, 0, 0, w, h);
         img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
     }
 
+    public void saveImg () {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        String filename = "ImageEditor-" + "nouvelle_img" + ".jpg";
+
+        File file = new File(myDir, filename);
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + filename);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            this.img_actual.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Put the bitmap in gray.
      */
