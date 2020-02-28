@@ -336,6 +336,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MediaStore.Images.Media.insertImage(getContentResolver(), img1.img_actual, "nom image", "description");
+                Toast toast = Toast.makeText(getApplicationContext(),"Picture saved", LENGTH_SHORT);
+                toast.show();
 
             }
         });
