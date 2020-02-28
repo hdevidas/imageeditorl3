@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         // ----------------------BOUTONS---------------------
 
         //Bouton default (Remettre l'image par défaut)
-        final Button bt_default = findViewById(R.id.bt_default);
+        final ImageButton bt_default = findViewById(R.id.bt_default);
         bt_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,7 +256,6 @@ public class MainActivity extends AppCompatActivity {
         final Button bt_average = findViewById(R.id.moyenneur);
         final Button bt_effect1 = findViewById(R.id.effect1);
         final Button bt_effect2 = findViewById(R.id.effect2);
-        final Button bt_effect3 = findViewById(R.id.effect3);
         filter= findViewById(R.id.filter);
         bt_convolve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,6 +306,14 @@ public class MainActivity extends AppCompatActivity {
                                 {-1, -1, -1, -1, -1},
                                 {-1, -1, -1, -1, -1}
                         };
+                /*   Autre effet :             int[][] mask2 =
+                        {
+                                {-80, -50, -30, -10, 0},
+                                {-50, -30, -10, 0, 10},
+                                {-30, -10, 0, 10, 30},
+                                {-10, 0, 10, 30, 50},
+                                {0, 10, 30, 50, 80}
+                        };*/
                 img1.convolve(mask1);
                 img1.toGray();
                 imv.setImageBitmap(img1.img_actual);
@@ -316,32 +323,10 @@ public class MainActivity extends AppCompatActivity {
         bt_effect2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int[][] mask2 =
-                        {
-                                {-80, -50, -30, -10, 0},
-                                {-50, -30, -10, 0, 10},
-                                {-30, -10, 0, 10, 30},
-                                {-10, 0, 10, 30, 50},
-                                {0, 10, 30, 50, 80}
-                        };
-
-                img1.convolve(mask2);
-                img1.toGray();
-                imv.setImageBitmap(img1.img_actual);
-            }
-        });
-
-        bt_effect3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 img1.convolveBis(15);
                 imv.setImageBitmap(img1.img_actual);
             }
         });
-
-
-
-
 
         final ImageButton gallery = findViewById(R.id.gallery);
 
