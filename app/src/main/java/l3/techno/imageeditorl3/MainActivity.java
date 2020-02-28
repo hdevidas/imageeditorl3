@@ -315,11 +315,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 seekbar.setVisibility(View.GONE);
-                Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent2.resolveActivity(getPackageManager()) != null) {
-
-                    startActivityForResult(intent2, TAKE_PHOTO);
-                }
+                TakePictureIntent();
             }
         });
 
