@@ -19,6 +19,7 @@
     <string name="button7_4">Effet 2</string>
     <string name="button8">Brightness</string>
     <string name="button9">ColorSaver</string>
+    <string name="button10">Incrustation</string>
 
     <string name="imageDescription">Test image</string>
 </resources>

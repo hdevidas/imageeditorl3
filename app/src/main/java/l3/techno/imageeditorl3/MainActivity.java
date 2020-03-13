@@ -6,6 +6,7 @@ import androidx.renderscript.Allocation;
 import androidx.renderscript.RenderScript;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -15,6 +16,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -38,12 +40,14 @@ import static android.widget.Toast.*;
 
 public class MainActivity extends AppCompatActivity {
     static Bitmap img;
+    static Bitmap img_star;
     BitmapFactory.Options opts = new BitmapFactory.Options();
     static PhotoView imv;
     SeekBar seekbar;
     LinearLayout filter;
 
     ImageEditor img1;
+    ImageEditor img2;
 
     boolean visibility = true;
 
@@ -80,8 +84,12 @@ public class MainActivity extends AppCompatActivity {
         imv = (PhotoView) findViewById(R.id.lena);
         opts.inMutable = true;
         opts.inScaled = false;
+
         img = BitmapFactory.decodeResource(getResources(), R.drawable.lena,opts);
+        img_star = BitmapFactory.decodeResource(getResources(), R.drawable.startest,opts);
+
         img1 = new ImageEditor(img);
+        img2 = new ImageEditor(img_star);
 
         //img1.defaultImg(); // Certaine fonctions ne fonctionnent pas si on
         imv.setImageBitmap(img1.img_actual);
@@ -249,7 +257,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        final Button bt_incrust = findViewById(R.id.incrust);
+        bt_incrust.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seekbar.setVisibility(View.GONE);
+                img1.incrust(1,1,1);
+                imv.setImageBitmap(img1.img_actual);
+            }
+        });
 
         final Button bt_convolve = findViewById(R.id.convolve);
         final Button bt_Gauss = findViewById(R.id.gaussien);
@@ -376,6 +392,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastHE.setVisibility(View.GONE);
                     bt_convolve.setVisibility(View.GONE);
                     bt_brightness.setVisibility(View.GONE);
+                    bt_incrust.setVisibility(View.GONE);
                     bt_save.setVisibility(View.GONE);
                     captureImg.setVisibility(View.GONE);
                     gallery.setVisibility(View.GONE);
@@ -399,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
                     bt_contrastHE.setVisibility(View.VISIBLE);
                     bt_convolve.setVisibility(View.VISIBLE);
                     bt_brightness.setVisibility(View.VISIBLE);
+                    bt_incrust.setVisibility(View.VISIBLE);
                     bt_save.setVisibility(View.VISIBLE);
                     captureImg.setVisibility(View.VISIBLE);
                     gallery.setVisibility(View.VISIBLE);

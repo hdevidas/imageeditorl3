@@ -1,9 +1,14 @@
 package l3.techno.imageeditorl3;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import static l3.techno.imageeditorl3.MainActivity.img;
 
 public class ImageEditor extends AppCompatActivity {
 
@@ -11,17 +16,14 @@ public class ImageEditor extends AppCompatActivity {
     public Bitmap img_backup;
     public Bitmap img_saved;
     public Bitmap img_actual;
+
     int w;
     int h;
-    private int[] pixels;
+    public int[] pixels;
 
     public int hue;
     public int brightness=250;
-    public int contrastLevel;
 
-
-    Img image;
-    //Dimensions ??
 
     //Constructeur
     public ImageEditor(Bitmap img){
@@ -537,5 +539,19 @@ public class ImageEditor extends AppCompatActivity {
         }
         return value;
     }
+
+    public void incrust(int shape, int number, int size){
+
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+
+
+        //Canvas.drawLine(float x, float y, float x1, float y1, Paint paint);
+        img_actual.setPixels(pixels, 0, w, 0, 0, w, h);
+    }
+
 
 }
